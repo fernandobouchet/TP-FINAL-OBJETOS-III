@@ -1,8 +1,16 @@
 Class {
 	#name : #Falso,
 	#superclass : #Tribooleano,
+	#classVars : [
+		'instanciaUnica'
+	],
 	#category : #'AA-TP'
 }
+
+{ #category : #'instance creation' }
+Falso class >> new [
+^instanciaUnica ifNil: [instanciaUnica := self basicNew]
+]
 
 { #category : #'logical operations' }
 Falso >> & unTribooleano [
@@ -34,7 +42,7 @@ Falso >> esVerdadero [
 
 { #category : #'logical operations' }
 Falso >> not [
-^Verdadero
+^Verdadero new .
 ]
 
 { #category : #controlling }

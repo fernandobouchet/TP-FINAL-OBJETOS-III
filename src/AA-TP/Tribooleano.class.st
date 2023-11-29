@@ -4,6 +4,11 @@ Class {
 	#category : #'AA-TP'
 }
 
+{ #category : #'instance creation' }
+Tribooleano class >> new [
+^self subclassResponsibility 
+]
+
 { #category : #'logical operations' }
 Tribooleano >> & unTribooleano [
 self subclassResponsibility

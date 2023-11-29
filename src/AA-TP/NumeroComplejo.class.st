@@ -1,12 +1,6 @@
 Class {
 	#name : #NumeroComplejo,
 	#superclass : #Object,
-	#instVars : [
-		'real',
-		'imaginary',
-		'angle',
-		'radius'
-	],
 	#category : #'AA-TP'
 }
 
@@ -16,51 +10,40 @@ NumeroComplejo class >> new [
 ]
 
 { #category : #'instance creation' }
-NumeroComplejo class >> newconAngulo: angulo conRadio: radio [
-|numeroReal|
-numeroReal := super new .
-	numeroReal angle: angulo .
-	numeroReal radius: radio .
-	numeroReal real: numeroReal obtenerReal .
-	numeroReal imaginary: numeroReal obtenerImaginario .
-^numeroReal 
+NumeroComplejo class >> newConAngulo: angulo conRadio: radio [
+^AngleRadius newConAngulo: angulo conRadio: radio .
 ]
 
 { #category : #'instance creation' }
-NumeroComplejo class >> newconReal: real conImaginario: imaginario [
-|numeroReal|
-numeroReal := super new .
-	numeroReal real: real .
-	numeroReal imaginary: imaginario .
-	numeroReal angle: numeroReal obtenerAngulo .
-	numeroReal radius: numeroReal obtenerRadio .
-^numeroReal 
+NumeroComplejo class >> newConReal: real conImaginario: imaginario [
+^RealImaginary newConReal: real conImaginario: imaginario .
+
 ]
 
 { #category : #operation }
 NumeroComplejo >> * unNumeroComplejoOReal [
-| resultadoReal resultadoImaginario resultadoComplejo |
-resultadoReal := (real * unNumeroComplejoOReal real) - (imaginary * unNumeroComplejoOReal imaginary) .
-resultadoImaginario := (real * unNumeroComplejoOReal imaginary) + (imaginary * unNumeroComplejoOReal real) .
-resultadoComplejo := self class newconReal: resultadoReal conImaginario: resultadoImaginario .
-^(resultadoImaginario isZero ifTrue: [resultadoReal] ifFalse: [resultadoComplejo])
+	| resultadoReal resultadoImaginario resultadoComplejo |
+	resultadoReal := (self real * unNumeroComplejoOReal real) - (self imaginary * unNumeroComplejoOReal imaginary) .
+	resultadoImaginario := (self real * unNumeroComplejoOReal imaginary) + (self imaginary * unNumeroComplejoOReal real) .
+	resultadoComplejo := self class newConReal: resultadoReal conImaginario: resultadoImaginario .
+	^(resultadoImaginario isZero ifTrue: [resultadoReal] ifFalse: [resultadoComplejo])
 ]
 
 { #category : #operation }
 NumeroComplejo >> + unNumeroComplejoOReal [
-| resultadoReal resultadoImaginario resultadoComplejo |
-resultadoReal := real + unNumeroComplejoOReal real .
-resultadoImaginario := imaginary + unNumeroComplejoOReal imaginary .
-resultadoComplejo := self class newconReal: resultadoReal conImaginario: resultadoImaginario .
-^(resultadoImaginario isZero ifTrue: [resultadoReal] ifFalse: [resultadoComplejo])
+	| resultadoReal resultadoImaginario resultadoComplejo |
+	resultadoReal := self real + unNumeroComplejoOReal real.
+	resultadoImaginario := self imaginary + unNumeroComplejoOReal imaginary .
+	resultadoComplejo := self class newConReal: resultadoReal conImaginario: resultadoImaginario.
+	^resultadoImaginario isZero ifTrue: [ resultadoReal ] ifFalse: [ resultadoComplejo ]
 ]
 
 { #category : #operation }
 NumeroComplejo >> - unNumeroComplejoOReal [
 | resultadoReal resultadoImaginario resultadoComplejo |
-resultadoReal := real - unNumeroComplejoOReal real .
-resultadoImaginario := imaginary - unNumeroComplejoOReal imaginary .
-resultadoComplejo := self class newconReal: resultadoReal conImaginario: resultadoImaginario .
+resultadoReal := self real - unNumeroComplejoOReal real .
+resultadoImaginario := self imaginary - unNumeroComplejoOReal imaginary .
+resultadoComplejo := self class newConReal: resultadoReal conImaginario: resultadoImaginario .
 ^(resultadoImaginario isZero ifTrue: [resultadoReal] ifFalse: [resultadoComplejo])
 ]
 
@@ -68,79 +51,28 @@ resultadoComplejo := self class newconReal: resultadoReal conImaginario: resulta
 NumeroComplejo >> / unNumeroComplejoOReal [
 | denominador resultadoReal resultadoImaginario  resultadoComplejo |
 denominador := unNumeroComplejoOReal real squared + unNumeroComplejoOReal imaginary squared .
-resultadoReal := (real * unNumeroComplejoOReal real) + (imaginary * unNumeroComplejoOReal imaginary) / denominador .
-resultadoImaginario := (imaginary * unNumeroComplejoOReal real) - (real * unNumeroComplejoOReal imaginary) / denominador .
-resultadoComplejo := self class newconReal: resultadoReal conImaginario: resultadoImaginario .
+resultadoReal := (self real * unNumeroComplejoOReal real) + (self imaginary * unNumeroComplejoOReal imaginary) / denominador .
+resultadoImaginario := (self imaginary * unNumeroComplejoOReal real) - (self real * unNumeroComplejoOReal imaginary) / denominador .
+resultadoComplejo := self class newConReal: resultadoReal conImaginario: resultadoImaginario .
 ^(resultadoImaginario isZero ifTrue: [resultadoReal] ifFalse: [resultadoComplejo])
 ]
 
 { #category : #accessing }
 NumeroComplejo >> angle [
-
-	^ angle
-]
-
-{ #category : #accessing }
-NumeroComplejo >> angle: unAngulo [
-
-	angle := unAngulo
+	^self subclassResponsibility 
 ]
 
 { #category : #accessing }
 NumeroComplejo >> imaginary [
-
-	^ imaginary
-]
-
-{ #category : #accessing }
-NumeroComplejo >> imaginary: unNumeroImaginario [
-
-	imaginary := unNumeroImaginario
-]
-
-{ #category : #transform }
-NumeroComplejo >> obtenerAngulo [
-^imaginary arcTan: real
-]
-
-{ #category : #transform }
-NumeroComplejo >> obtenerImaginario [
-^radius * (angle sin)
-
-]
-
-{ #category : #transform }
-NumeroComplejo >> obtenerRadio [
-^(real squared + imaginary squared) sqrt
-
-]
-
-{ #category : #transform }
-NumeroComplejo >> obtenerReal [
-^radius * (angle cos)
-
+	^self subclassResponsibility
 ]
 
 { #category : #accessing }
 NumeroComplejo >> radius [
-
-	^ radius
-]
-
-{ #category : #accessing }
-NumeroComplejo >> radius: unRadio [
-
-	radius := unRadio
+	^self subclassResponsibility
 ]
 
 { #category : #accessing }
 NumeroComplejo >> real [
-
-	^ real
-]
-
-{ #category : #accessing }
-NumeroComplejo >> real: unNumeroReal [
-
-	real := unNumeroReal
+	^self subclassResponsibility
 ]

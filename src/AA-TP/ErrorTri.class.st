@@ -1,8 +1,16 @@
 Class {
 	#name : #ErrorTri,
 	#superclass : #Tribooleano,
+	#classVars : [
+		'instanciaUnica'
+	],
 	#category : #'AA-TP'
 }
+
+{ #category : #'instance creation' }
+ErrorTri class >> new [
+^instanciaUnica ifNil: [instanciaUnica := self basicNew]
+]
 
 { #category : #'logical operations' }
 ErrorTri >> & unTribooleano [
@@ -32,7 +40,7 @@ ErrorTri >> esVerdadero [
 
 { #category : #'logical operations' }
 ErrorTri >> not [
-^self
+^self class new .
 ]
 
 { #category : #controlling }
